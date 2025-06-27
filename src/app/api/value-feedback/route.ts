@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     });
     const response = completion.choices[0].message.content?.trim();
     return NextResponse.json({ response });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ response: "Thanks for sharing! (AI response not available right now.)" });
   }
 }

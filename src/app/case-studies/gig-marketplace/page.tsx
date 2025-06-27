@@ -1,5 +1,13 @@
 "use client";
 import GigMarketplaceJourney from "@/components/GigMarketplaceJourney";
+import React from "react";
+
+interface SectionProps {
+  icon: React.ReactNode;
+  title: string;
+  color: string;
+  content: React.ReactNode;
+}
 
 export default function GigMarketplacePage() {
   return (
@@ -33,7 +41,7 @@ export default function GigMarketplacePage() {
         <Section
           icon="🛑"
           title="1️⃣ The Problem"
-          color="[#fcae5a]"
+          color="#fcae5a"
           content={
             <ul className="list-disc pl-6 text-[#23272f]">
               <li>
@@ -50,7 +58,7 @@ export default function GigMarketplacePage() {
         <Section
           icon="🔎"
           title="2️⃣ What We Learned"
-          color="[#cabffd]"
+          color="#cabffd"
           content={
             <ul className="list-disc pl-6 text-[#23272f]">
               <li>User interviews: consultants want steady, flexible work.</li>
@@ -65,7 +73,7 @@ export default function GigMarketplacePage() {
         <Section
           icon="🏪"
           title="3️⃣ Our Solution: A Gig Marketplace"
-          color="[#85e89d]"
+          color="#85e89d"
           content={
             <ul className="list-disc pl-6 text-[#23272f]">
               <li>MVP: Airtable of real tasks, bonus points for completed work.</li>
@@ -143,18 +151,19 @@ export default function GigMarketplacePage() {
 }
 
 // Helper: Section card with left accent and bold heading
-function Section({ icon, title, color, content }) {
+function Section({ icon, title, color, content }: SectionProps) {
   return (
     <section className="mb-8">
       <div className="flex items-center gap-3 mb-1">
         <span className="text-2xl drop-shadow-md">{icon}</span>
-        <h2
-          className={`text-lg font-bold tracking-wider text-[#23272f]`}
-        >
+        <h2 className={`text-lg font-bold tracking-wider text-[#23272f]`}>
           {title}
         </h2>
       </div>
-      <div className="rounded-2xl bg-white shadow p-5 border-l-4" style={{ borderColor: color.replace('[', '').replace(']', '') }}>
+      <div
+        className="rounded-2xl bg-white shadow p-5 border-l-4"
+        style={{ borderColor: color }}
+      >
         {content}
       </div>
     </section>

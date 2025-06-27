@@ -3,7 +3,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MousePointerClick } from "lucide-react";
 
-export default function MagicalValueCard({ value, desc, asset }) {
+interface MagicalValueCardProps {
+  value: string;
+  desc: string;
+  asset: string;
+}
+
+export default function MagicalValueCard({ value, desc, asset }: MagicalValueCardProps) {
+
   const [hovered, setHovered] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -11,7 +18,7 @@ export default function MagicalValueCard({ value, desc, asset }) {
   const [loading, setLoading] = useState(false);
 
   // Handle submission of user opinion
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!userInput.trim()) return;
     setLoading(true);
@@ -24,7 +31,7 @@ export default function MagicalValueCard({ value, desc, asset }) {
       });
       const { response } = await res.json();
       setAiResponse(response);
-    } catch (err) {
+    } catch {
       setAiResponse("Thanks for sharing! (AI could not respond right now.)");
     }
     setLoading(false);

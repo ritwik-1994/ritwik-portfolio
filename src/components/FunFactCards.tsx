@@ -1,7 +1,13 @@
 'use client';
 import { motion } from "framer-motion";
 
-export default function FunFactCard({ image, text, emoji }) {
+interface FunFactCardProps {
+  image: string;
+  text: string;
+  emoji: string;
+}
+
+export default function FunFactCard({ image, text, emoji }: FunFactCardProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.03, boxShadow: "0 8px 28px 0 rgba(124,198,254,0.11)" }}

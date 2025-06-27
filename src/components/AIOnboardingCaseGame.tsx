@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, Reorder } from "framer-motion";
 
 // --- Game Constants ---
@@ -89,26 +89,27 @@ const GAME_STEPS = [
       "Onboardings with Data Quality Issues",
       "Rescued Revenue",
     ],
-    reveal: null, // Will be replaced by the Reveal Results button
+    reveal: null,
     icon: "📊",
   },
 ];
 
-export default function AIOnboardingCaseGame({ onReveal }) {
+// --- Type Definitions ---
+interface AIOnboardingCaseGameProps {
+  onReveal: () => void;
+}
+
+export default function AIOnboardingCaseGame({ onReveal }: AIOnboardingCaseGameProps) {
   const [step, setStep] = useState(0);
-  // Stakeholder interview state
-  const [interviewed, setInterviewed] = useState([]);
-  // Insight matching state
-  const [selectedProblem, setSelectedProblem] = useState(null);
-  const [selectedCause, setSelectedCause] = useState(null);
-  const [matchedPairs, setMatchedPairs] = useState([]);
+  const [interviewed, setInterviewed] = useState<string[]>([]);
+  const [selectedProblem, setSelectedProblem] = useState<string | null>(null);
+  const [selectedCause, setSelectedCause] = useState<string | null>(null);
+  const [matchedPairs, setMatchedPairs] = useState<{ problem: string; cause: string }[]>([]);
   const [matchFeedback, setMatchFeedback] = useState("");
-  // Solution selection state
-  const [chosen, setChosen] = useState(null);
-  const [attempted, setAttempted] = useState([]);
+  const [chosen, setChosen] = useState<number | null>(null);
+  const [attempted, setAttempted] = useState<number[]>([]);
   const [showWrong, setShowWrong] = useState(false);
-  // Metrics ranking state
-  const [metrics, setMetrics] = useState([
+  const [metrics, setMetrics] = useState<string[]>([
     "Onboarding Lag Time",
     "Onboardings with Data Quality Issues",
     "Rescued Revenue",
@@ -118,7 +119,6 @@ export default function AIOnboardingCaseGame({ onReveal }) {
   const current = GAME_STEPS[step];
   const progress = ((step + 1) / GAME_STEPS.length) * 100;
 
-  // Next step logic
   const next = () => {
     setInterviewed([]);
     setSelectedProblem(null);
@@ -137,35 +137,24 @@ export default function AIOnboardingCaseGame({ onReveal }) {
     setStep((s) => Math.min(s + 1, GAME_STEPS.length - 1));
   };
 
-  // --- Stakeholder Interviews ---
-  const swipeInterview = (name) => {
+  const swipeInterview = (name: string) => {
     setInterviewed((list) => (list.includes(name) ? list : [...list, name]));
   };
 
-  // --- Insight Matching ---
-  const remainingProblems = INSIGHT_PAIRS
-    .map((p) => p.problem)
-    .filter((p) => !matchedPairs.find((pair) => pair.problem === p));
-  const remainingCauses = INSIGHT_PAIRS
-    .map((p) => p.cause)
-    .filter((c) => !matchedPairs.find((pair) => pair.cause === c));
   const isAllMatched = matchedPairs.length === INSIGHT_PAIRS.length;
 
-  const handleProblemClick = (problem) => {
+  const handleProblemClick = (problem: string) => {
     setSelectedProblem(problem === selectedProblem ? null : problem);
     setMatchFeedback("");
   };
 
-  const handleCauseClick = (cause) => {
+  const handleCauseClick = (cause: string) => {
     if (!selectedProblem) return;
     const match = INSIGHT_PAIRS.find(
       (p) => p.problem === selectedProblem && p.cause === cause
     );
     if (match) {
-      setMatchedPairs((pairs) => [
-        ...pairs,
-        { problem: selectedProblem, cause },
-      ]);
+      setMatchedPairs((pairs) => [...pairs, { problem: selectedProblem, cause }]);
       setMatchFeedback("✔️ Correct pair!");
     } else {
       setMatchFeedback("❌ Not a correct pair. Try again!");
@@ -177,31 +166,21 @@ export default function AIOnboardingCaseGame({ onReveal }) {
     }, 900);
   };
 
-  // --- Solution Choosing ---
-  const chooseOption = (idx, correct) => {
+  const chooseOption = (idx: number, correct: boolean) => {
     setAttempted((prev) => (prev.includes(idx) ? prev : [...prev, idx]));
     setChosen(idx);
-    if (correct) {
-      setTimeout(next, 1000);
-    } else {
+    if (correct) setTimeout(next, 1000);
+    else {
       setShowWrong(true);
       setTimeout(() => setShowWrong(false), 800);
     }
   };
 
-  // --- Metric Ranking ---
-  const checkMetricsOrder = (arr) => {
-    return (
-      arr[0] === CORRECT_METRICS_ORDER[0] &&
-      arr[1] === CORRECT_METRICS_ORDER[1] &&
-      arr[2] === CORRECT_METRICS_ORDER[2]
-    );
-  };
-  React.useEffect(() => {
-    if (step === GAME_STEPS.length - 1) {
-      setIsMetricsCorrect(checkMetricsOrder(metrics));
-    }
-    // eslint-disable-next-line
+  useEffect(() => {
+    if (step === GAME_STEPS.length - 1)
+      setIsMetricsCorrect(
+        metrics.every((metric, i) => metric === CORRECT_METRICS_ORDER[i])
+      );
   }, [metrics, step]);
 
   return (
@@ -237,7 +216,7 @@ export default function AIOnboardingCaseGame({ onReveal }) {
         {/* STEP 2: Swipe any direction */}
         {current.action === "swipe" && (
           <div className="flex gap-5 flex-wrap justify-center">
-            {current.personas.map((p) =>
+            {current.personas?.map((p) =>
               !interviewed.includes(p.name) ? (
                 <motion.div
                   key={p.name}
@@ -261,7 +240,7 @@ export default function AIOnboardingCaseGame({ onReveal }) {
                 </div>
               )
             )}
-            {interviewed.length === current.personas.length && (
+            {interviewed.length === current.personas?.length && (
               <button
                 onClick={next}
                 className="rounded-xl mt-2 px-6 py-3 bg-[#7cc6fe] text-white font-bold shadow hover:scale-105 transition"
@@ -366,7 +345,7 @@ export default function AIOnboardingCaseGame({ onReveal }) {
         {current.action === "choose" && (
           <>
             <div className={`flex flex-col gap-3 w-full max-w-xs ${showWrong ? "animate-shake" : ""}`}>
-              {current.options.map((o, idx) => (
+              {current.options?.map((o, idx) => (
                 <button
                   key={o.text}
                   className={`rounded-xl px-5 py-3 text-lg font-semibold shadow transition

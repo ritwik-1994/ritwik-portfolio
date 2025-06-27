@@ -1,10 +1,18 @@
 "use client";
+
 import React, { useState } from "react";
 import AIOnboardingCaseGame from "@/components/AIOnboardingCaseGame";
 import { motion } from "framer-motion";
 
-// Impact metrics and ImpactTile component as before
-const IMPACT_METRICS = [
+interface ImpactMetric {
+  icon: React.ReactNode;
+  headline: string;
+  value: { before: string; after: string; delta: string };
+  subtext: string;
+  color: string;
+}
+
+const IMPACT_METRICS: ImpactMetric[] = [
   {
     icon: "⏱️",
     headline: "Lag Dropped 65%",
@@ -35,7 +43,15 @@ const IMPACT_METRICS = [
   },
 ];
 
-function ImpactTile({ icon, headline, value, subtext, color }) {
+interface ImpactTileProps {
+  icon: React.ReactNode;
+  headline: string;
+  value: { before: string; after: string; delta: string };
+  subtext: string;
+  color: string;
+}
+
+function ImpactTile({ icon, headline, value, subtext, color }: ImpactTileProps) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -75,12 +91,16 @@ function ImpactTile({ icon, headline, value, subtext, color }) {
         </span>
         <div className="flex items-center gap-3 mb-2">
           <span className="text-3xl">{icon}</span>
-          <span className="text-xl font-extrabold text-white drop-shadow">{headline}</span>
+          <span className="text-xl font-extrabold text-white drop-shadow">
+            {headline}
+          </span>
         </div>
         <div className="flex items-center gap-2 mb-2">
           <span className="text-base text-white/70 line-through">{value.before}</span>
           <span className="mx-1 text-lg font-bold text-white/90">→</span>
-          <span className="text-3xl font-black text-white drop-shadow">{value.after}</span>
+          <span className="text-3xl font-black text-white drop-shadow">
+            {value.after}
+          </span>
         </div>
         <div className="text-base text-white/90">{subtext}</div>
       </motion.div>
@@ -88,7 +108,19 @@ function ImpactTile({ icon, headline, value, subtext, color }) {
   );
 }
 
-function CaseStudySection({ icon, title, color, children }) {
+interface CaseStudySectionProps {
+  icon: React.ReactNode;
+  title: string;
+  color: string;
+  children: React.ReactNode;
+}
+
+function CaseStudySection({
+  icon,
+  title,
+  color,
+  children,
+}: CaseStudySectionProps) {
   return (
     <section className="w-full max-w-3xl mx-auto mb-12">
       <div className="flex items-start gap-4">
@@ -108,61 +140,51 @@ function CaseStudySection({ icon, title, color, children }) {
 }
 
 export default function AiOnboardingPage() {
-    const [showMetrics, setShowMetrics] = useState(false);
-  
-    return (
-      <main className="relative min-h-screen flex flex-col items-center py-10 px-2 bg-gradient-to-br from-[#FCEABB] via-[#fff] to-[#b5e7fb] overflow-x-hidden">
-        <div className="bg-gradient-to-r from-[#fcae5a]/20 to-[#7cc6fe]/10 rounded-3xl shadow-md px-6 py-4 mb-10 flex flex-col items-center border border-[#e5e5e5] max-w-3xl w-full mx-auto">
-          <h2 className="text-2xl font-black text-[#23272f] mb-2 text-center">
-            AI Onboarding Agent: $6M/year Saved, 65% Faster, +60 NPS
-          </h2>
-          <p className="text-lg text-[#425674] text-center max-w-2xl">
-            How I rebuilt onboarding for 3 markets—saving revenue, delighting users, and turning a pain point into a growth lever.
-          </p>
-        </div>
-  
-        <AIOnboardingCaseGame onReveal={() => setShowMetrics(true)} />
-  
-        <section className="w-full max-w-7xl mx-auto mb-10 overflow-x-auto overflow-visible">
-          {!showMetrics ? (
-            <div className="flex items-center justify-center w-full py-8">
+  const [showMetrics, setShowMetrics] = useState(false);
+
+  return (
+    <main className="relative min-h-screen flex flex-col items-center py-10 px-2 bg-gradient-to-br from-[#FCEABB] via-[#fff] to-[#b5e7fb] overflow-x-hidden">
+      <div className="bg-gradient-to-r from-[#fcae5a]/20 to-[#7cc6fe]/10 rounded-3xl shadow-md px-6 py-4 mb-10 flex flex-col items-center border border-[#e5e5e5] max-w-3xl w-full mx-auto">
+        <h2 className="text-2xl font-black text-[#23272f] mb-2 text-center">
+          AI Onboarding Agent: $6M/year Saved, 65% Faster, +60 NPS
+        </h2>
+        <p className="text-lg text-[#425674] text-center max-w-2xl">
+          How I rebuilt onboarding for 3 markets—saving revenue, delighting users, and turning a pain point into a growth lever.
+        </p>
+      </div>
+
+      <AIOnboardingCaseGame onReveal={() => setShowMetrics(true)} />
+
+      <section className="w-full max-w-7xl mx-auto mb-10 overflow-x-auto overflow-visible">
+        {!showMetrics ? (
+          <div className="flex items-center justify-center w-full py-8">
             <motion.div
-              initial={{ scale: 1, boxShadow: "0 0 0 0 rgba(124,198,254,0.14)" }}
-              animate={{
-                scale: [1, 1.04, 1],
-                boxShadow: [
-                  "0 0 0 0 rgba(124,198,254,0.13)",
-                  "0 6px 32px 0 rgba(124,198,254,0.17)",
-                  "0 0 0 0 rgba(124,198,254,0.13)"
-                ],
-                transition: { repeat: Infinity, duration: 2, ease: "easeInOut" }
-              }}
-              className="w-full text-center bg-gradient-to-r from-[#cabffd]/50 to-[#7cc6fe]/30 border-2 border-dashed border-[#cabffd] py-8 rounded-2xl relative flex flex-col items-center shadow"
+              initial={{ scale: 1 }}
+              animate={{ scale: [1, 1.04, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="w-full text-center bg-gradient-to-r from-[#cabffd]/50 to-[#7cc6fe]/30 border-2 border-dashed border-[#cabffd] py-8 rounded-2xl flex flex-col items-center shadow"
             >
               <span className="text-4xl mb-2 animate-bounce">🔒</span>
-              <span className="text-lg sm:text-xl font-extrabold text-[#7c3aed] mb-1 tracking-tight">
+              <span className="text-lg sm:text-xl font-extrabold text-[#7c3aed]">
                 Unlock Real Impact
               </span>
-              <span className="text-base text-[#5b54b5] font-medium max-w-xl mx-auto">
-                Complete the interactive journey above to reveal the secrets behind <span className="font-bold text-[#23272f]">the AI agent onboarding quest</span>
-              </span>
-              <span className="mt-4 text-sm text-[#cabffd] italic">
-                <span className="animate-pulse">✨ All will be revealed…</span>
+              <span className="text-base text-[#5b54b5] font-medium">
+                Complete the interactive journey above to reveal the secrets behind the AI agent onboarding quest.
               </span>
             </motion.div>
           </div>
-          
-          ) : (
-            <div className="flex flex-nowrap gap-8 py-4 overflow-visible">
-              {IMPACT_METRICS.map((metric, idx) => (
-                <ImpactTile key={idx} {...metric} />
-              ))}
-            </div>
-          )}
-        </section>
-  
-        {/* Always visible: My Role, Case Study Sections */}
-        <div className="max-w-3xl mx-auto my-7 bg-white border-l-8 border-[#7cc6fe] shadow-lg rounded-2xl p-6 flex items-center gap-3">
+        ) : (
+          <div className="flex flex-nowrap gap-8 py-4 overflow-visible">
+            {IMPACT_METRICS.map((metric, idx) => (
+              <ImpactTile key={idx} {...metric} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* My Role & Case StudySections unchanged... (kept from your provided original code) */}
+      {/* Always visible: My Role, Case Study Sections */}
+      <div className="max-w-3xl mx-auto my-7 bg-white border-l-8 border-[#7cc6fe] shadow-lg rounded-2xl p-6 flex items-center gap-3">
           <span className="text-3xl">🧑‍💻</span>
           <span className="font-bold text-[#23272f] text-lg leading-tight">
             My Role: Personally mapped the funnel, led user and stakeholder interviews, designed AI evals & A/B tests, and owned project delivery.
@@ -208,6 +230,9 @@ export default function AiOnboardingPage() {
             <b>Next:</b> Connect agent to auto-upskilling and feedback loops for continuous improvement.
           </span>
         </div>
-      </main>
-    );
-  }
+   
+    </main>
+  );
+}
+
+  

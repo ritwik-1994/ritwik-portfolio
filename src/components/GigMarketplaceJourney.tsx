@@ -9,7 +9,7 @@ const NODES = [
     emoji: "⚠️",
     tagline: "When projects end, so do consultant careers…",
     main: "After every project, 60% of top STEM consultants left Turing. Leadership saw the churn, but no one saw the system’s true flaw.",
-    cta: "Begin the Consultant’s Journey",
+    cta: "Begin the Consultant&apos;s Journey",
     highlight: null,
   },
   {
@@ -18,7 +18,7 @@ const NODES = [
     tagline: "The real enemy? Weeks of idle time. Untapped work. Missed connections.",
     main: "Data, interviews, and sales insights all pointed to a single pain: idle consultants eager for short gigs. Clients needed quick wins—but the marketplace couldn’t deliver.",
     cta: "Reveal the Solution Path",
-    highlight: "\"I'd do short gigs just to stay active.\"",
+    highlight: "\"I&apos;d do short gigs just to stay active.\"",
   },
   {
     title: "The Leap",
@@ -102,7 +102,7 @@ const NODES = [
 
 export default function GigMarketplaceFlowchart() {
   const [revealed, setRevealed] = useState(0);
-  const [badges, setBadges] = useState([]);
+  const [badges, setBadges] = useState<number[]>([]);
   const revealNext = () => setRevealed((n) => Math.min(n + 1, NODES.length - 1));
 
   return (
@@ -292,7 +292,7 @@ export default function GigMarketplaceFlowchart() {
                   {/* End animation for final scene */}
                   {revealed === idx &&
                     idx === NODES.length - 1 &&
-                    badges.length === node.highlight.length && (
+                    badges.length === node.highlight?.length && (
                       <motion.div
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1.07, opacity: 1 }}

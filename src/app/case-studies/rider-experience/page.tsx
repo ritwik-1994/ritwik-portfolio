@@ -1,5 +1,13 @@
 "use client";
 import RiderExperienceRPG from "@/components/RiderExperienceRPG";
+import React from "react";
+
+interface SectionProps {
+  icon: React.ReactNode;
+  title: string;
+  color: string;
+  content: React.ReactNode;
+}
 
 export default function RiderExperiencePage() {
   return (
@@ -34,7 +42,7 @@ export default function RiderExperiencePage() {
         <Section
           icon="🛑"
           title="1️⃣ Context & Problem"
-          color="[#fcae5a]"
+          color="#fcae5a"
           content={
             <ul className="list-disc pl-6 text-[#23272f]">
               <li>30,000+ riders suffered from late payouts and confusing earnings.</li>
@@ -45,7 +53,7 @@ export default function RiderExperiencePage() {
         <Section
           icon="🔎"
           title="2️⃣ Discovery"
-          color="[#cabffd]"
+          color="#cabffd"
           content={
             <ul className="list-disc pl-6 text-[#23272f]">
               <li>Shadowed riders and hubs—batch-processing, surge confusion, and no transparent calculator.</li>
@@ -56,7 +64,7 @@ export default function RiderExperiencePage() {
         <Section
           icon="💡"
           title="3️⃣ Solution: Real-time, Trust-building Platform"
-          color="[#7cc6fe]"
+          color="#7cc6fe"
           content={
             <ul className="list-disc pl-6 text-[#23272f]">
               <li>Built real-time earnings calculator.</li>
@@ -128,14 +136,19 @@ export default function RiderExperiencePage() {
 }
 
 // Section card with icon and strong heading
-function Section({ icon, title, color, content }) {
+function Section({ icon, title, color, content }: SectionProps) {
   return (
     <section className="mb-8">
       <div className="flex items-center gap-3 mb-1">
         <span className="text-2xl drop-shadow-md">{icon}</span>
-        <h2 className={`text-lg font-bold tracking-wider text-[#23272f]`}>{title}</h2>
+        <h2 className={`text-lg font-bold tracking-wider text-[#23272f]`}>
+          {title}
+        </h2>
       </div>
-      <div className="rounded-2xl bg-white shadow p-5 border-l-4" style={{ borderColor: color.replace('[', '').replace(']', '') }}>
+      <div
+        className="rounded-2xl bg-white shadow p-5 border-l-4"
+        style={{ borderColor: color }}
+      >
         {content}
       </div>
     </section>

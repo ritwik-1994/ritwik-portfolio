@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     });
     const reason = completion.choices[0].message.content?.trim();
     return NextResponse.json({ reason });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ reason: "Because this truly matters — every day." });
   }
 }

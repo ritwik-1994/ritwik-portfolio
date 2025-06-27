@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // LANDMARKS
@@ -31,6 +31,18 @@ const EARNING_CHIPS = [
     { key: "incentive", label: "Incentives", icon: "🎁", color: "bg-blue-100 text-blue-500" },
   ];
 
+  interface SignupNodeModalProps {
+    scene: any; // Replace 'any' with your scene type if known
+    setScene: (scene: any) => void;
+    handleComplete: () => void;
+    docSlots: any;
+    setDocSlots: (docSlots: any) => void;
+    draggedDoc: any;
+    setDraggedDoc: (doc: any) => void;
+    language: string;
+    setLanguage: (lang: string) => void;
+  }
+  
   function SignupNodeModal({
     scene,
     setScene,
@@ -41,7 +53,7 @@ const EARNING_CHIPS = [
     setDraggedDoc,
     language,
     setLanguage
-  }) {
+  }: SignupNodeModalProps) {
     const DOCS = [
       { key: "photo", label: "Photo", icon: "📷" },
       { key: "id", label: "ID Proof", icon: "🪪" },
@@ -113,7 +125,7 @@ const EARNING_CHIPS = [
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => {
                       if (draggedDoc === doc.key) {
-                        setDocSlots((slots) => ({
+                        setDocSlots((slots: Record<string, boolean>) => ({
                           ...slots,
                           [doc.key]: true,
                         }));
@@ -154,9 +166,9 @@ const EARNING_CHIPS = [
                   <button
                     key={lang}
                     className={`px-3 py-1 rounded-lg font-bold text-sm border-2 transition
-                      ${i === language
+                      ${lang === language
                         ? "bg-[#7cc6fe] text-white border-[#cabffd]"
-                        : "bg-white text-[#7cc6fe] border-[#cabffd]/40 hover:bg-[#f4f8ff]"}
+                        : "bg-white text-[#7cc6fe] border-[#cabffd]/40 hover:bg-[#f4f8ff]"}                      
                     `}
                     onClick={() => setLanguage(i)}
                   >
@@ -260,7 +272,20 @@ const EARNING_CHIPS = [
   }
   
   // TELECOM TOWER NODE MODAL
-  function TelecomNodeModal({ scene, setScene, handleComplete, boosted, setBoosted }) {
+  interface TelecomNodeModalProps {
+    scene: string | null;
+    setScene: (scene: string | null) => void;
+    handleComplete: () => void;
+    boosted: boolean;
+    setBoosted: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+  function TelecomNodeModal({
+    scene,
+    setScene,
+    handleComplete,
+    boosted,
+    setBoosted,
+  }: TelecomNodeModalProps) {
       return (
         <motion.div
           initial={{ opacity: 0, y: 64 }}
@@ -426,7 +451,24 @@ const EARNING_CHIPS = [
     }
     
     // ATM/BANK NODE MODAL
-    function ATMNodeModal({ scene, setScene, handleComplete, dashboardSlots, setDashboardSlots, draggedChip, setDraggedChip }) {
+    interface ATMNodeModalProps {
+  scene: string | null;
+  setScene: (scene: string | null) => void;
+  handleComplete: () => void;
+  dashboardSlots: Record<string, boolean>;
+  setDashboardSlots: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  draggedChip: string | null;
+  setDraggedChip: React.Dispatch<React.SetStateAction<string | null>>;
+}
+function ATMNodeModal({
+  scene,
+  setScene,
+  handleComplete,
+  dashboardSlots,
+  setDashboardSlots,
+  draggedChip,
+  setDraggedChip,
+}: ATMNodeModalProps) {
       const allChipsPlaced = Object.keys(dashboardSlots).length === EARNING_CHIPS.length;
     
       return (
@@ -607,7 +649,16 @@ const EARNING_CHIPS = [
       );
     }
     
-    function OrderAllocationNodeModal({ scene, setScene, handleComplete }) {
+    interface OrderAllocationNodeModalProps {
+      scene: string | null;
+      setScene: (scene: string | null) => void;
+      handleComplete: () => void;
+    }
+    function OrderAllocationNodeModal({
+      scene,
+      setScene,
+      handleComplete,
+    }: OrderAllocationNodeModalProps) {
         return (
           <motion.div
             initial={{ opacity: 0, y: 64 }}
@@ -784,7 +835,7 @@ const EARNING_CHIPS = [
                   <div className="font-bold text-[#7cc6fe] mb-2">Order Allocation Algorithm</div>
                   <div className="bg-[#e0f7fa] rounded-xl p-4 shadow w-full max-w-xs mx-auto text-center">
                     <div className="text-[#23272f] mb-1">
-                      <b>You've fixed:</b> <br />
+                      <b>You&apos;ve fixed:</b> <br />
                       ❌ Missed SLAs<br />
                       ❌ Lost incentives<br />
                       ❌ Wasted time<br />
@@ -822,16 +873,16 @@ const EARNING_CHIPS = [
       
     
     export default function RiderExperienceRPG() {
-        const [showIntro, setShowIntro] = useState(true);
-        const [currentNode, setCurrentNode] = useState(0);
-        const [visited, setVisited] = useState(Array(LANDMARKS.length).fill(false));
-        const [scene, setScene] = useState(null);
-        const [draggedDoc, setDraggedDoc] = useState(null);
-        const [docSlots, setDocSlots] = useState({});
-        const [language, setLanguage] = useState(0);
-        const [boosted, setBoosted] = useState(false);
-        const [draggedChip, setDraggedChip] = useState(null);
-        const [dashboardSlots, setDashboardSlots] = useState({});
+      const [showIntro, setShowIntro] = useState(true);
+      const [currentNode, setCurrentNode] = useState(0);
+      const [visited, setVisited] = useState<boolean[]>(Array(LANDMARKS.length).fill(false));
+      const [scene, setScene] = useState<string | null>(null);
+      const [draggedDoc, setDraggedDoc] = useState<string | null>(null);
+      const [docSlots, setDocSlots] = useState<Record<string, boolean>>({});
+      const [language, setLanguage] = useState<number>(0);
+      const [boosted, setBoosted] = useState<boolean>(false);
+      const [draggedChip, setDraggedChip] = useState<string | null>(null);
+      const [dashboardSlots, setDashboardSlots] = useState<Record<string, boolean>>({});
       
         // Only allow move to the next unlocked node in sequence
         function getAllowedMoves(node, visited) {
@@ -945,7 +996,7 @@ const EARNING_CHIPS = [
                     className="max-w-lg w-full bg-white rounded-3xl shadow-2xl p-8 text-center relative"
                   >
                     <div className="text-5xl mb-2">🛵</div>
-                    <h2 className="text-2xl font-extrabold mb-3 text-[#7cc6fe]">Step Into a Rider's Journey</h2>
+                    <h2 className="text-2xl font-extrabold mb-3 text-[#7cc6fe]">Step Into a Rider&apos;s Journey</h2>
                     <div className="text-lg text-[#41475a] mb-6 font-medium">
                       Experience a day in the life of a Jubilant delivery partner.<br /><br />
                       <span className="font-semibold text-[#fcae5a]">How to play:</span><br />

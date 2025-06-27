@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import WhatMattersToMe from "@/components/WhatMattersToMe";
-import { Linkedin,  Mail } from "lucide-react";
+import { Linkedin} from "lucide-react";
 import { FaInstagram } from "react-icons/fa"; 
 import FunFactsGrid from "@/components/FunFactsGrid";
 
