@@ -948,7 +948,6 @@ function ATMNodeModal({
         }, [currentNode, scene, showIntro, visited]);
       
         type Direction = "up" | "down" | "left" | "right";
-        type MoveObj = { i: number; dx: number; dy: number };
 
         // On-screen controls
         const tryMove = (dir: Direction): void => {
