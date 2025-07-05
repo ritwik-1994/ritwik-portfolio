@@ -902,7 +902,7 @@ function ATMNodeModal({
       
         // Keyboard navigation (arrow keys and wasd)
         useEffect(() => {
-          const handleKey = (e) => {
+          const handleKey = (e: KeyboardEvent) => {
             if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
                 e.preventDefault();
               }
