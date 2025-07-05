@@ -41,8 +41,8 @@ const EARNING_CHIPS = [
     setDocSlots: (docSlots: any) => void;
     draggedDoc: any;
     setDraggedDoc: (doc: any) => void;
-    language: string;
-    setLanguage: (lang: string) => void;
+    language: number;
+    setLanguage: (lang: number) => void;
   }
   
   function SignupNodeModal({
