@@ -1,0 +1,15 @@
+{
+    "name": "Next.js Portfolio",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+    "postCreateCommand": "npm install",
+    "forwardPorts": [
+        3000
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "esbenp.prettier-vscode"
+            ]
+        }
+    }
+}

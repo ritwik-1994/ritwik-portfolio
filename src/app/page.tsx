@@ -167,7 +167,7 @@ export default function Home() {
 
           {/* Your Dp */}
           <img
-            src="/images/ritwik.jpg"
+            src="/images/Ritwik.jpg"
             alt="Ritwik Chakradhar"
             className="w-56 h-56 rounded-full object-cover border-8 border-white shadow-2xl bg-white relative z-10"
           />
