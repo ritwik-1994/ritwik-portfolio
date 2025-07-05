@@ -947,25 +947,43 @@ function ATMNodeModal({
           return () => window.removeEventListener("keydown", handleKey);
         }, [currentNode, scene, showIntro, visited]);
       
+        type Direction = "up" | "down" | "left" | "right";
+        type MoveObj = { i: number; dx: number; dy: number };
+
         // On-screen controls
-        const tryMove = (dir) => {
-            if (scene || showIntro) return;
-            const node = LANDMARKS[currentNode];
-            const moves = getAllowedMoves(node, visited);
-            let filterFn;
-            if (dir === "up") filterFn = m => m.dy < 0 && Math.abs(m.dx) <= 20;
-            if (dir === "down") filterFn = m => m.dy > 0 && Math.abs(m.dx) <= 50;
-            if (dir === "left") filterFn = m => m.dx < 0 && Math.abs(m.dy) <= 20;
-            if (dir === "right") filterFn = m => m.dx > 0 && Math.abs(m.dy) <= 20;
-            const filtered = moves.filter(filterFn);
-            if (filtered.length) setCurrentNode(filtered.reduce((a, b) =>
-              dir === "up" || dir === "left"
-                ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
-                : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b))
-            ).i);
+        const tryMove = (dir: Direction): void => {
+          if (scene || showIntro) return;
+
+          const node = LANDMARKS[currentNode];
+          const moves = getAllowedMoves(node, visited) as MoveObj[];
+
+          const inDir = (m: MoveObj): boolean => {
+            switch (dir) {
+              case "up": return m.dy < 0 && Math.abs(m.dx) <= 20;
+              case "down": return m.dy > 0 && Math.abs(m.dx) <= 50;
+              case "left": return m.dx < 0 && Math.abs(m.dy) <= 20;
+              case "right": return m.dx > 0 && Math.abs(m.dy) <= 20;
+              default: return false;
+            }
           };
-      
-        const handleComplete = () => {
+
+          const candidates = moves.filter(inDir);
+          if (!candidates.length) return;
+
+          const best = candidates.reduce((a, b) =>
+            dir === "up" || dir === "left"
+              ? dir === "up"
+                ? (a.dy > b.dy ? a : b)
+                : (a.dx > b.dx ? a : b)
+              : dir === "down"
+                ? (a.dy < b.dy ? a : b)
+                : (a.dx < b.dx ? a : b)
+          );
+
+          setCurrentNode(best.i);
+        };
+
+        const handleComplete = (): void => {
           setVisited((arr) => {
             const copy = [...arr];
             copy[currentNode] = true;
@@ -979,16 +997,15 @@ function ATMNodeModal({
           setDashboardSlots({});
           setDraggedChip(null);
         };
-      
+
         const avatarPos = {
           x: (LANDMARKS[currentNode].x / 100) * MAP_SIZE + AVATAR_OFFSET.x,
           y: (LANDMARKS[currentNode].y / 100) * MAP_SIZE + AVATAR_OFFSET.y,
         };
-      
-        const nodeActionable = idx =>
+
+        const nodeActionable = (idx: number): boolean =>
           currentNode === idx && !visited[idx] && idx !== 0 && !scene;
-      
-        // Furthest completed node (for lock styling)
+
         const furthestNode = visited.lastIndexOf(true);
       
         return (
