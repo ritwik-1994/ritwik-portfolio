@@ -947,6 +947,7 @@ function ATMNodeModal({
           return () => window.removeEventListener("keydown", handleKey);
         }, [currentNode, scene, showIntro, visited]);
 
+
         }, [currentNode, scene, showIntro, visited]);
       
         // On-screen controls
