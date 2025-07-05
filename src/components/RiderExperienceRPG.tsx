@@ -747,7 +747,7 @@ function ATMNodeModal({
                             : "M0,60 L192,60"
                         }
                         fill="none"
-                        stroke={scene === "solution" ? "#16a34a" : "#cabffd"}
+                        stroke={(scene as string) === "solution" ? "#16a34a" : "#cabffd"}
                         strokeWidth={4}
                         strokeDasharray="8 7"
                         initial={false}
