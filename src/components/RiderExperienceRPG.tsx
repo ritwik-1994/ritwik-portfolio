@@ -724,9 +724,9 @@ function ATMNodeModal({
                         initial={false}
                         animate={{
                           left: 64 + i * 56,
-                          top: [24, 60, 12][i], // scattered y
-                          ...(scene === "solution" && { top: 44 }) // all align horizontally after optimize
+                          top: scene === "solution" ? 44 : [24, 60, 12][i],
                         }}
+
                         transition={{ type: "spring", stiffness: 130, damping: 15, delay: scene === "solution" ? i * 0.08 : 0 }}
                       >
                         <span className="text-3xl">{["📦", "📦", "📦"][i]}</span>
