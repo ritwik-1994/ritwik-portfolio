@@ -918,10 +918,11 @@ function ATMNodeModal({
             else if (["ArrowRight", "d", "D"].includes(e.key)) dir = "right";
             if (dir) {
               let filterFn;
-              if (dir === "up") filterFn = m => m.dy < 0 && Math.abs(m.dx) <= 20;
-              if (dir === "down") filterFn = m => m.dy > 0 && Math.abs(m.dx) <= 50;
-              if (dir === "left") filterFn = m => m.dx < 0 && Math.abs(m.dy) <= 20;
-              if (dir === "right") filterFn = m => m.dx > 0 && Math.abs(m.dy) <= 20;
+              if (dir === "up") filterFn = (m: { dx: number; dy: number }) => m.dy < 0 && Math.abs(m.dx) <= 20;
+              if (dir === "down") filterFn = (m: { dx: number; dy: number }) => m.dy > 0 && Math.abs(m.dx) <= 50;
+              if (dir === "left") filterFn = (m: { dx: number; dy: number }) => m.dx < 0 && Math.abs(m.dy) <= 20;
+              if (dir === "right") filterFn = (m: { dx: number; dy: number }) => m.dx > 0 && Math.abs(m.dy) <= 20;
+
               const filtered = moves.filter(filterFn);
               if (filtered.length) setCurrentNode(filtered.reduce((a, b) =>
                 dir === "up" || dir === "left"
