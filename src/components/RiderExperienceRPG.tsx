@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+type MoveObj = { i: number; dx: number; dy: number };
+
 
 // LANDMARKS
 const LANDMARKS = [
@@ -923,17 +925,17 @@ function ATMNodeModal({
               if (dir === "left") filterFn = (m: { dx: number; dy: number }) => m.dx < 0 && Math.abs(m.dy) <= 20;
               if (dir === "right") filterFn = (m: { dx: number; dy: number }) => m.dx > 0 && Math.abs(m.dy) <= 20;
 
-              const filtered = moves.filter(filterFn);
-              if (filtered.length) setCurrentNode(
-                filtered.reduce(
-                  (a: MoveObj, b: MoveObj) =>
-                    dir === "up" || dir === "left"
-                      ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
-                      : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b)),
-                  filtered[0]
-                ).i
-              );
-
+              const filtered = (moves as MoveObj[]).filter(filterFn);
+                if (filtered.length)
+                  setCurrentNode(
+                    filtered.reduce(
+                      (a, b) =>
+                        dir === "up" || dir === "left"
+                          ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
+                          : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b)),
+                      filtered[0]
+                    ).i
+                  );
             } else if (["Enter", " "].includes(e.key)) {
               if (!visited[currentNode] && [1,2,3].includes(currentNode)) setScene("problem");
             }
