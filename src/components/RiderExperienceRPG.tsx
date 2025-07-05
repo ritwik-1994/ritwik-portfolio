@@ -658,11 +658,11 @@ function ATMNodeModal({
       setScene: (scene: string | null) => void;
       handleComplete: () => void;
     }
-    AllocationNodeModal({
+    function OrderAllocationNodeModal({
       scene,
       setScene,
       handleComplete,
-    }:function Order OrderAllocationNodeModalProps) {
+    }, OrderAllocationNodeModalProps) {
         return (
           <motion.div
             initial={{ opacity: 0, y: 64 }}
