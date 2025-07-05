@@ -168,9 +168,10 @@ const EARNING_CHIPS = [
                   <button
                     key={lang}
                     className={`px-3 py-1 rounded-lg font-bold text-sm border-2 transition
-                      ${lang === language
-                        ? "bg-[#7cc6fe] text-white border-[#cabffd]"
-                        : "bg-white text-[#7cc6fe] border-[#cabffd]/40 hover:bg-[#f4f8ff]"}
+                      ${i === language
+                      ? "bg-[#7cc6fe] text-white border-[#cabffd]"
+                      : "bg-white text-[#7cc6fe] border-[#cabffd]/40 hover:bg-[#f4f8ff]"}
+
                     `}
                     onClick={() => setLanguage(i)}
                   >
