@@ -752,7 +752,7 @@ function ATMNodeModal({
                         strokeDasharray="8 7"
                         initial={false}
                         animate={{
-                          pathLength: scene === "solution" ? 1 : 0.98,
+                          pathLength: (scene as string) === "solution" ? 1 : 0.98,
                           opacity: 1
                         }}
                         transition={{ duration: 0.7 }}
