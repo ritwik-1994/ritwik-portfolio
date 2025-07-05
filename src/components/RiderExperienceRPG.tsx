@@ -170,13 +170,14 @@ const EARNING_CHIPS = [
                     className={`px-3 py-1 rounded-lg font-bold text-sm border-2 transition
                       ${lang === language
                         ? "bg-[#7cc6fe] text-white border-[#cabffd]"
-                        : "bg-white text-[#7cc6fe] border-[#cabffd]/40 hover:bg-[#f4f8ff]"}                      
+                        : "bg-white text-[#7cc6fe] border-[#cabffd]/40 hover:bg-[#f4f8ff]"}
                     `}
                     onClick={() => setLanguage(i)}
                   >
                     {lang}
                   </button>
                 ))}
+
               </div>
               {/* Continue only when all docs uploaded */}
               <button
