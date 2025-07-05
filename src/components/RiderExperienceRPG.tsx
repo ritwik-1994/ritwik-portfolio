@@ -662,7 +662,7 @@ function ATMNodeModal({
       scene,
       setScene,
       handleComplete,
-    }, OrderAllocationNodeModalProps) {
+    }: OrderAllocationNodeModalProps) {
         return (
           <motion.div
             initial={{ opacity: 0, y: 64 }}
