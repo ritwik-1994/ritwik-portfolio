@@ -946,9 +946,6 @@ function ATMNodeModal({
           window.addEventListener("keydown", handleKey, { passive: false });
           return () => window.removeEventListener("keydown", handleKey);
         }, [currentNode, scene, showIntro, visited]);
-
-
-        }, [currentNode, scene, showIntro, visited]);
       
         // On-screen controls
         const tryMove = (dir) => {
