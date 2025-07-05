@@ -924,11 +924,16 @@ function ATMNodeModal({
               if (dir === "right") filterFn = (m: { dx: number; dy: number }) => m.dx > 0 && Math.abs(m.dy) <= 20;
 
               const filtered = moves.filter(filterFn);
-              if (filtered.length) setCurrentNode(filtered.reduce((a, b) =>
-                dir === "up" || dir === "left"
-                  ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
-                  : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b))
-              ).i);
+              if (filtered.length) setCurrentNode(
+                filtered.reduce(
+                  (a: MoveObj, b: MoveObj) =>
+                    dir === "up" || dir === "left"
+                      ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
+                      : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b)),
+                  filtered[0]
+                ).i
+              );
+
             } else if (["Enter", " "].includes(e.key)) {
               if (!visited[currentNode] && [1,2,3].includes(currentNode)) setScene("problem");
             }
