@@ -727,7 +727,7 @@ function ATMNodeModal({
                           top: (scene as string) === "solution" ? 44 : [24, 60, 12][i],
                         }}
 
-                        transition={{ type: "spring", stiffness: 130, damping: 15, delay: scene === "solution" ? i * 0.08 : 0 }}
+                        transition={{ type: "spring", stiffness: 130, damping: 15, delay: (scene as string) === "solution" ? i * 0.08 : 0 }}
                       >
                         <span className="text-3xl">{["📦", "📦", "📦"][i]}</span>
                       </motion.div>
