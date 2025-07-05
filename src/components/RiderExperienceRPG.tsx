@@ -658,11 +658,11 @@ function ATMNodeModal({
       setScene: (scene: string | null) => void;
       handleComplete: () => void;
     }
-    function OrderAllocationNodeModal({
+    AllocationNodeModal({
       scene,
       setScene,
       handleComplete,
-    }: OrderAllocationNodeModalProps) {
+    }:function Order OrderAllocationNodeModalProps) {
         return (
           <motion.div
             initial={{ opacity: 0, y: 64 }}
@@ -724,7 +724,7 @@ function ATMNodeModal({
                         initial={false}
                         animate={{
                           left: 64 + i * 56,
-                          top: scene === "solution" ? 44 : [24, 60, 12][i],
+                          top: (scene as string) === "solution" ? 44 : [24, 60, 12][i],
                         }}
 
                         transition={{ type: "spring", stiffness: 130, damping: 15, delay: scene === "solution" ? i * 0.08 : 0 }}
