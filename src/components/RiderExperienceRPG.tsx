@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 // LANDMARKS
 const LANDMARKS = [
@@ -979,6 +981,13 @@ function ATMNodeModal({
       
         return (
           <div className="w-full max-w-xl mx-auto mb-16 relative">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-[#257ecb] font-semibold text-base rounded-full px-4 py-2 bg-[#f4faff] hover:bg-[#e1f0fd] shadow transition mb-8"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back to Home
+            </Link>
             {/* Intro modal */}
             <AnimatePresence>
               {showIntro && (

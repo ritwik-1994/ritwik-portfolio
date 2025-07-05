@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import WhatMattersToMe from "@/components/WhatMattersToMe";
-import { Linkedin} from "lucide-react";
-import { FaInstagram } from "react-icons/fa"; 
+import { Linkedin, Mail } from "lucide-react";
+import { FaInstagram } from "react-icons/fa";
 import FunFactsGrid from "@/components/FunFactsGrid";
 
 // Animated count-up for metrics
@@ -49,7 +49,6 @@ const FUN_FACTS = [
   },
 ];
 
-
 const CASE_STUDIES = [
   {
     title: "AI Agent Onboarding",
@@ -59,14 +58,23 @@ const CASE_STUDIES = [
     slug: "ai-onboarding",
     bg: "from-[#fcae5a] to-[#7cc6fe]",
   },
-  {
-    title: "Gig Marketplace",
-    summary: "Cut churn by 70%, launching new revenue streams.",
-    metric: "-70% Churn",
-    emoji: "🛒",
-    slug: "gig-marketplace",
-    bg: "from-[#7cc6fe] to-[#85e89d]",
-  },
+      {
+      title: "Gig Marketplace",
+      summary: (
+        <>
+          Cut churn by 70%, launching new revenue streams{" "}
+          <span className="text-[#23272f] font-bold bg-gradient-to-r from-[#cabffd] to-[#fcae5a] px-2 py-1 rounded-lg ml-1 shadow-sm">
+            65M+ ARR
+          </span>
+          .
+        </>
+      ),
+      metric: "-70% Churn",
+      emoji: "🛒",
+      slug: "gig-marketplace",
+      bg: "from-[#7cc6fe] to-[#85e89d]",
+    }
+,
   {
     title: "Rider Experience: Payments & Retention",
     summary: "Scaled to 75K users, payout errors down 42%, engagement soars.",
@@ -75,29 +83,48 @@ const CASE_STUDIES = [
     slug: "rider-experience", // NEW: this matches /app/case-studies/rider-experience/page.tsx
     bg: "from-[#85e89d] to-[#fcae5a]",
   },
-  {
-    title: "Feed Fairness Algorithm",
-    summary: "Improved diversity and engagement (+430K daily users).",
-    metric: "+1% DAU",
-    emoji: "🎨",
-    slug: "feed-diversity",
-    bg: "from-[#cabffd] to-[#fcae5a]",
-  },
 ];
-
-
 
 export default function Home() {
   const arrValue = useCountUp(100);
 
   return (
-    <main className="min-h-screen flex flex-col items-center bg-gradient-to-br from-[#fff1e0] via-[#f8fafc] to-[#b5e7fb] px-4 py-12 overflow-hidden relative">
+    <div className="h-screen w-full flex flex-col relative overflow-hidden">
+    <nav className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl">
+      <ul className="pointer-events-auto flex justify-between gap-2 px-7 py-3 bg-gradient-to-br from-[#7cc6fe]/80 via-white/90 to-[#cabffd]/70 border-2 border-[#7cc6fe] shadow-2xl backdrop-blur-2xl rounded-full ring-2 ring-[#cabffd]/60 transition-all">
+        {[
+          { id: "intro", label: "Home", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2}><path d="M4 12l8-8 8 8v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8z" /></svg> },
+          { id: "results", label: "Results", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2}><path d="M3 3v18h18" /><rect width="4" height="8" x="7" y="8" rx="1"/><rect width="4" height="12" x="13" y="4" rx="1"/></svg> },
+          { id: "case-studies", label: "Work", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2}><rect width="18" height="10" x="3" y="7" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" /></svg> },
+          { id: "values", label: "Values", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2}><path d="M12 21C12 21 4 13.12 4 8.5A4.5 4.5 0 018.5 4c1.74 0 3.41.81 4.5 2.09C14.09 4.81 15.76 4 17.5 4A4.5 4.5 0 0122 8.5C22 13.12 12 21 12 21z"/></svg> },
+          { id: "fun-facts", label: "Fun", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="4"/><path d="M12 2v2m6.364 1.636l-1.414 1.414M22 12h-2m-1.636 6.364l-1.414-1.414M12 22v-2m-6.364-1.636l1.414-1.414M2 12h2m1.636-6.364l1.414 1.414" /></svg> },
+        ].map(({ id, label, icon }) => (
+          <li key={id} className="flex-1">
+            <a
+              href={`#${id}`}
+              className="group flex flex-col items-center justify-center py-1 text-[13px] font-bold text-[#234] hover:text-[#1f80e0] focus:text-[#5a13e6] transition-all relative"
+              style={{ minWidth: 64 }}
+            >
+              <span className="mb-1 group-hover:scale-125 group-focus:scale-125 transition-transform drop-shadow">{icon}</span>
+              <span className="tracking-wider">{label}</span>
+              {/* Animated underline */}
+              <span className="absolute left-2 right-2 -bottom-0.5 h-1 rounded-full bg-[#7cc6fe] opacity-0 group-hover:opacity-80 group-focus:opacity-100 scale-x-0 group-hover:scale-x-100 group-focus:scale-x-100 transition-all duration-300 origin-center" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+
+
+    
+    <main className="min-h-screen flex flex-col items-center bg-gradient-to-br from-[#fff1e0] via-[#f8fafc] to-[#b5e7fb] px-4 py-12 pb-48 overflow-y-auto relative">
       {/* Decorative blobs */}
       <span className="absolute -top-20 -left-20 w-72 h-72 bg-[#ffe5ec] opacity-40 blur-2xl rounded-full z-0" />
       <span className="absolute -bottom-24 -right-24 w-80 h-80 bg-[#e0f7fa] opacity-30 blur-2xl rounded-full z-0" />
 
       {/* HERO SECTION */}
-      <section className="relative flex flex-col md:flex-row items-center max-w-5xl w-full mb-14 z-10">
+      <section id="intro" className="relative flex flex-col md:flex-row items-center max-w-5xl w-full mb-14 z-10">
         {/* Big geometric circle */}
         <div className="absolute -top-20 left-0 md:left-[-100px] w-72 h-72 bg-[#fcae5a] opacity-40 rounded-full z-0"></div>
         {/* Triangle accent */}
@@ -114,57 +141,6 @@ export default function Home() {
         <div className="relative z-10 md:mr-10 mb-8 md:mb-0 flex items-center justify-center">
           {/* Static Purple Halo */}
           <div className="absolute -top-3 -left-3 w-64 h-64 rounded-full border-8 border-[#cabffd] z-0" />
-          {/* 3D Arc */}
-          {/* <div
-            className="absolute left-1/2 top-1/2 z-20 pointer-events-none"
-            style={{
-              width: '264px',
-              height: '264px',
-              transform: 'translate(-50%, -50%)',
-              perspective: 700,
-            }}
-          >
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                transformStyle: 'preserve-3d',
-                animation: 'rotate-halo-3d 3.5s linear infinite',
-                transformOrigin: '50% 50%',
-              }}
-            >
-              <svg
-                width="100%"
-                height="100%"
-                viewBox="0 0 264 264"
-                fill="none"
-                style={{
-                  display: 'block',
-                  filter: 'drop-shadow(0 0 12px #cabffd99)',
-                }}
-              >
-                <defs>
-                  <linearGradient id="halo-gradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#cabffd" />
-                    <stop offset="100%" stopColor="#7cc6fe" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M 44 132 A 88 88 0 0 1 220 132"
-                  stroke="url(#halo-gradient)"
-                  strokeWidth="10"
-                  strokeLinecap="round"
-                  opacity="0.85"
-                  fill="none"
-                  style={{
-                    filter: 'blur(1.5px) drop-shadow(0 0 12px #cabffd99)',
-                  }}
-                />
-              </svg>
-            </div>
-          </div> */}
-
-
           {/* Your Dp */}
           <img
             src="/images/Ritwik.jpg"
@@ -183,7 +159,7 @@ export default function Home() {
             I believe in the power of clarity, bold design, and joyful products. My work is all about turning messy problems into beautiful, useful experiences—while delivering real, measurable growth.
           </p>
           <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-          <a
+            <a
               href="https://www.linkedin.com/in/ritwik-chakradhar-047a53ba/"
               target="_blank"
               rel="noopener noreferrer"
@@ -204,54 +180,47 @@ export default function Home() {
                 letterSpacing: ".01em"
               }}>LinkedIn</span>
             </a>
-          <a
-            href="https://www.instagram.com/ritwik.chakradhar/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold shadow hover:scale-105 transition-all"
-            style={{
-              background: "linear-gradient(45deg, #fd1d1d, #fcb045 50%, #833ab4 100%)",
-              color: "#fff",
-            }}
-          >
-            <FaInstagram className="w-5 h-5" />
-            Instagram
-          </a>
-          <a
-            href="mailto:ritwik.chakradhar1994@gmail.com"
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold shadow hover:scale-105 transition-all border border-gray-200 bg-white"
-            style={{
-              color: "#EA4335", // Gmail red
-              boxShadow: "0 2px 12px 0 rgba(234,67,53,0.07)"
-            }}
-          >
-            {/* Gmail SVG logo */}
-            <span className="w-5 h-5 inline-block">
-              <svg viewBox="0 0 512 512" fill="none">
-                <rect width="512" height="512" rx="110" fill="#fff"/>
-                <path d="M92 158.2l164 120.8 164-120.8V380c0 13.3-10.7 24-24 24H116c-13.3 0-24-10.7-24-24V158.2z" fill="#EA4335"/>
-                <path d="M92 158.2l164 120.8 164-120.8" stroke="#34A853" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M92 158.2V132c0-13.3 10.7-24 24-24h280c13.3 0 24 10.7 24 24v26.2" stroke="#4285F4" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-            <span className="font-semibold text-[#222]">Mail Me</span>
-          </a>
+            <a
+              href="https://www.instagram.com/ritwik.chakradhar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold shadow hover:scale-105 transition-all"
+              style={{
+                background: "linear-gradient(45deg, #fd1d1d, #fcb045 50%, #833ab4 100%)",
+                color: "#fff",
+              }}
+            >
+              <FaInstagram className="w-5 h-5" />
+              Instagram
+            </a>
+            <a
+              href="mailto:ritwik.chakradhar1994@gmail.com"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold shadow hover:scale-105 transition-all border border-gray-200 bg-white"
+              style={{
+                color: "#EA4335",
+                boxShadow: "0 2px 12px 0 rgba(234,67,53,0.07)"
+              }}
+            >
+              <span className="w-5 h-5 inline-block">
+                <svg viewBox="0 0 512 512" fill="none">
+                  <rect width="512" height="512" rx="110" fill="#fff"/>
+                  <path d="M92 158.2l164 120.8 164-120.8V380c0 13.3-10.7 24-24 24H116c-13.3 0-24-10.7-24-24V158.2z" fill="#EA4335"/>
+                  <path d="M92 158.2l164 120.8 164-120.8" stroke="#34A853" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M92 158.2V132c0-13.3 10.7-24 24-24h280c13.3 0 24 10.7 24 24v26.2" stroke="#4285F4" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <span className="font-semibold text-[#222]">Mail Me</span>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* WHAT MATTERS TO ME SECTION */}
-      <WhatMattersToMe />
-
-      {/* FUN FACTS */}
-      <FunFactsGrid facts={FUN_FACTS} />
-
-      {/* IMPACT METRICS */}
-      <section className="w-full max-w-4xl mb-16 z-10">
+      {/* RESULTS (IMPACT METRICS) PRIORITIZED */}
+      <section id="results" className="w-full max-w-4xl mb-16 z-10">
         <h2 className="text-2xl font-bold text-[#23272f] mb-5 text-center">Results That Matter</h2>
         <div className="flex flex-wrap gap-5 justify-center items-center">
           <div className="flex items-center gap-2 bg-gradient-to-r from-[#fcae5a] to-[#7cc6fe] px-6 py-3 rounded-2xl shadow text-white text-xl font-bold">
-            💡 ${arrValue}M+ revenue unlocked through a Gig Marketplace
+            💡 {arrValue}M+ revenue unlocked 
           </div>
           <div className="flex items-center gap-2 bg-gradient-to-r from-[#85e89d] to-[#fcae5a] px-6 py-3 rounded-2xl shadow text-[#23272f] text-xl font-bold">
             ⚡️ 65% faster onboarding through AI agent ($500K/month saved)
@@ -269,31 +238,43 @@ export default function Home() {
       </section>
 
       {/* CASE STUDIES */}
-      <section className="relative w-full max-w-5xl z-10 mb-16">
-        <h2 className="text-2xl font-bold text-[#23272f] mb-8 text-center">Featured Case Studies</h2>
-        <div className="grid md:grid-cols-2 gap-8 px-2">
-          {CASE_STUDIES.map(({ title, summary, metric, emoji, slug, bg }) => (
-            <Link key={slug} href={`/case-studies/${slug}`}>
-              <div
-                className={`group rounded-3xl bg-white/95 border border-[#f4f1fa] shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.035] p-7 flex flex-col gap-3 relative overflow-visible`}
-              >
-                <span
-                  className={`absolute -top-5 left-6 px-5 py-2 rounded-full shadow-md text-base font-bold text-white bg-gradient-to-r ${bg} ring-2 ring-white/70 z-10 transition-all group-hover:scale-105`}
+        <section id="case-studies" className="relative w-full max-w-5xl z-10 mb-16">
+          <h2 className="text-2xl font-bold text-[#23272f] mb-8 text-center">Featured Case Studies</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-2">
+            {CASE_STUDIES.map(({ title, summary, metric, emoji, slug, bg }) => (
+              <Link key={slug} href={`/case-studies/${slug}`}>
+                <div
+                  className={`group rounded-3xl bg-white/95 border border-[#f4f1fa] shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.035] p-7 flex flex-col gap-3 relative overflow-visible`}
                 >
-                  {emoji} {metric}
-                </span>
-                <h3 className="mt-6 text-xl font-black text-[#23272f] group-hover:text-[#7cc6fe] transition">
-                  {title}
-                </h3>
-                <p className="text-[#6d7087] text-base">{summary}</p>
-                <span className="mt-2 inline-block px-4 py-1 rounded-full bg-gradient-to-r from-[#fcae5a] to-[#cabffd] text-white text-xs font-bold w-fit shadow hover:bg-[#7cc6fe] transition">
-                  View Story →
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+                  <span
+                    className={`absolute -top-5 left-6 px-5 py-2 rounded-full shadow-md text-base font-bold text-white bg-gradient-to-r ${bg} ring-2 ring-white/70 z-10 transition-all group-hover:scale-105`}
+                  >
+                    {emoji} {metric}
+                  </span>
+                  <h3 className="mt-6 text-xl font-black text-[#23272f] group-hover:text-[#7cc6fe] transition">
+                    {title}
+                  </h3>
+                  <p className="text-[#6d7087] text-base">{summary}</p>
+                  <span className="mt-2 inline-block px-4 py-1 rounded-full bg-gradient-to-r from-[#fcae5a] to-[#cabffd] text-white text-xs font-bold w-fit shadow hover:bg-[#7cc6fe] transition">
+                    View Story →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+
+      {/* VALUES SECTION */}
+        <section id="values" className="w-full max-w-5xl mb-16 z-10">
+          <WhatMattersToMe />
+        </section>
+
+        {/* FUN FACTS SECTION */}
+        <section id="fun-facts" className="w-full max-w-5xl mb-16 z-10">
+          <FunFactsGrid facts={FUN_FACTS} />
+        </section>
+
 
       {/* FOOTER / CONNECT */}
       <section className="w-full max-w-2xl mx-auto mt-8 rounded-3xl shadow-lg bg-white/95 p-8 border border-[#f4f1fa] text-center z-10">
@@ -319,10 +300,8 @@ export default function Home() {
           </a>
         </div>
       </section>
-      
     </main>
-    
+
+    </div>
   );
 }
-
-

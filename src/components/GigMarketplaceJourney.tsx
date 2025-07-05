@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 // ---- SCENE DATA ----
 const NODES = [
@@ -107,6 +109,14 @@ export default function GigMarketplaceFlowchart() {
 
   return (
     <div className="w-full max-w-2xl mx-auto py-10 select-none">
+      <Link
+        href="/"
+        className="fixed top-7 left-7 z-50 flex items-center gap-2 text-[#257ecb] font-semibold text-base rounded-full px-5 py-2 bg-white/90 hover:bg-[#e1f0fd] shadow-lg ring-1 ring-[#7cc6fe]/40 transition"
+        style={{ backdropFilter: "blur(8px)" }}
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Back
+      </Link>
       {/* Animated, glowing progress path */}
       <div className="flex items-center gap-0.5 mb-10">
         {NODES.map((stop, idx) => (

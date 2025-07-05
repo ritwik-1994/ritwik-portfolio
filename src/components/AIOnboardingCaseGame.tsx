@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, Reorder } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 // --- Game Constants ---
 const CORRECT_METRICS_ORDER = [
@@ -185,6 +187,14 @@ export default function AIOnboardingCaseGame({ onReveal }: AIOnboardingCaseGameP
 
   return (
     <section className="w-full max-w-2xl mx-auto mb-12 mt-8 p-5 rounded-3xl shadow-xl bg-white/90 border border-[#eaeaea] flex flex-col items-center relative overflow-visible">
+      <Link
+        href="/"
+        className="fixed top-7 left-7 z-50 flex items-center gap-2 text-[#257ecb] font-semibold text-base rounded-full px-5 py-2 bg-white/90 hover:bg-[#e1f0fd] shadow-lg ring-1 ring-[#7cc6fe]/40 transition"
+        style={{ backdropFilter: "blur(8px)" }}
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Back
+      </Link>
       <div className="absolute top-4 left-0 w-full flex items-center px-4">
         <div className="flex-1 h-2 bg-[#cabffd]/40 rounded-xl overflow-hidden mr-3">
           <div
