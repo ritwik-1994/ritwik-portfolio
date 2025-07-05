@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-type MoveObj = { i: number; dx: number; dy: number };
 
 
 // LANDMARKS
@@ -902,46 +901,51 @@ function ATMNodeModal({
               }));            
         }
       
-        // Keyboard navigation (arrow keys and wasd)
+        type MoveObj = { i: number; dx: number; dy: number };
+
         useEffect(() => {
           const handleKey = (e: KeyboardEvent) => {
             if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-                e.preventDefault();
-              }
-              
+              e.preventDefault();
+            }
+
             if (scene || showIntro) return;
             const node = LANDMARKS[currentNode];
             if (!node) return;
             const moves = getAllowedMoves(node, visited);
-            let dir = null;
+
+            let dir: "up" | "down" | "left" | "right" | null = null;
             if (["ArrowUp", "w", "W"].includes(e.key)) dir = "up";
             else if (["ArrowDown", "s", "S"].includes(e.key)) dir = "down";
             else if (["ArrowLeft", "a", "A"].includes(e.key)) dir = "left";
             else if (["ArrowRight", "d", "D"].includes(e.key)) dir = "right";
+
             if (dir) {
-              let filterFn;
-              if (dir === "up") filterFn = (m: { dx: number; dy: number }) => m.dy < 0 && Math.abs(m.dx) <= 20;
-              if (dir === "down") filterFn = (m: { dx: number; dy: number }) => m.dy > 0 && Math.abs(m.dx) <= 50;
-              if (dir === "left") filterFn = (m: { dx: number; dy: number }) => m.dx < 0 && Math.abs(m.dy) <= 20;
-              if (dir === "right") filterFn = (m: { dx: number; dy: number }) => m.dx > 0 && Math.abs(m.dy) <= 20;
+              let filterFn: (m: MoveObj) => boolean;
+              if (dir === "up") filterFn = (m) => m.dy < 0 && Math.abs(m.dx) <= 20;
+              else if (dir === "down") filterFn = (m) => m.dy > 0 && Math.abs(m.dx) <= 50;
+              else if (dir === "left") filterFn = (m) => m.dx < 0 && Math.abs(m.dy) <= 20;
+              else if (dir === "right") filterFn = (m) => m.dx > 0 && Math.abs(m.dy) <= 20;
+              else filterFn = () => false;
 
               const filtered = (moves as MoveObj[]).filter(filterFn);
-                if (filtered.length)
-                  setCurrentNode(
-                    filtered.reduce(
-                      (a, b) =>
-                        dir === "up" || dir === "left"
-                          ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
-                          : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b)),
-                      filtered[0]
-                    ).i
-                  );
+              if (filtered.length > 0) {
+                const best = filtered.reduce(
+                  (a: MoveObj, b: MoveObj) =>
+                    dir === "up" || dir === "left"
+                      ? (dir === "up" ? (a.dy > b.dy ? a : b) : (a.dx > b.dx ? a : b))
+                      : (dir === "down" ? (a.dy < b.dy ? a : b) : (a.dx < b.dx ? a : b)),
+                  filtered[0]
+                );
+                setCurrentNode(best.i);
+              }
             } else if (["Enter", " "].includes(e.key)) {
-              if (!visited[currentNode] && [1,2,3].includes(currentNode)) setScene("problem");
+              if (!visited[currentNode] && [1, 2, 3].includes(currentNode)) setScene("problem");
             }
           };
           window.addEventListener("keydown", handleKey, { passive: false });
-            return () => window.removeEventListener("keydown", handleKey);
+          return () => window.removeEventListener("keydown", handleKey);
+        }, [currentNode, scene, showIntro, visited]);
 
         }, [currentNode, scene, showIntro, visited]);
       
