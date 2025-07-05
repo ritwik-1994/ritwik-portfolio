@@ -889,7 +889,7 @@ function ATMNodeModal({
       const [dashboardSlots, setDashboardSlots] = useState<Record<string, boolean>>({});
       
         // Only allow move to the next unlocked node in sequence
-        function getAllowedMoves(node, visited) {
+        function getAllowedMoves(node: typeof LANDMARKS[number], visited: boolean[]) {
             const furthestNode = visited.lastIndexOf(true);
             return node.connections
               .filter(i => furthestNode === -1 ? i === 1 : i <= furthestNode + 1)
