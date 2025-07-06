@@ -1,14 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-/* Define root theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-/* Optional: dark mode overrides */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -16,19 +14,13 @@
   }
 }
 
-/* Apply background and font styling */
 body {
-  background-color: var(--background);
+  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Optional: 3D halo rotation keyframes */
 @keyframes rotate-halo-3d {
-  0% {
-    transform: rotateY(0deg) rotateZ(-20deg);
-  }
-  100% {
-    transform: rotateY(360deg) rotateZ(-20deg);
-  }
+  0%   { transform: rotateY(0deg) rotateZ(-20deg);}
+  100% { transform: rotateY(360deg) rotateZ(-20deg);}
 }
